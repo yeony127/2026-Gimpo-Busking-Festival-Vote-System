@@ -340,6 +340,11 @@
   .close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;color:#9aa39c;cursor:pointer;}
   .btn-cancel{background:var(--pink-light);color:#a1436a;margin-top:8px;}
 
+  /* 기프티콘 응모 완료 팝업 */
+  .gift-popup-title{font-size:19px;font-weight:800;color:var(--green-dark);text-align:center;line-height:1.5;margin:8px 0 16px;}
+  .gift-popup-warn{font-size:12.5px;color:#c81e3a;line-height:1.65;background:#fff3f3;border-radius:10px;padding:12px;margin-bottom:16px;}
+  .gift-extra{display:block;color:#8bc34a;font-size:11.78px;font-weight:700;margin-top:8px;}
+
   /* admin modal */
   #adminBody .card{margin-bottom:10px;}
   .admin-stat{display:flex;justify-content:space-between;font-size:16.9px;padding:6px 0;border-bottom:1px dashed #e5e9e5;}
@@ -510,6 +515,17 @@
     </div>
     <button class="btn btn-green" id="btnCompleteVote" disabled>투표완료 ✅</button>
     <button class="btn btn-cancel" id="btnCancelVote" style="display:none;">투표취소 ❌</button>
+  </div>
+</div>
+
+<!-- ================= 기프티콘 응모 완료 팝업 ================= -->
+<div class="overlay" id="giftPopupOverlay">
+  <div class="sheet">
+    <button class="close-x" id="closeGiftPopup">✕</button>
+    <div class="sheet-handle"></div>
+    <div class="gift-popup-title" id="giftPopupTitle"></div>
+    <div class="gift-popup-warn">※ '1인당 한 번만 응모 가능'하며, 처음 투표를 진행했던 5개팀 투표 취소 후 다른 5개팀에게 투표하더라도 1회만 응모 되는 점 참고 바랍니다.(기프티콘 응모와 별개로 원하실 경우 5팀 이상 자유롭게 투표 가능)</div>
+    <button class="btn btn-green" id="btnGiftPopupOk">확인</button>
   </div>
 </div>
 
@@ -760,7 +776,8 @@
     var note = document.getElementById('giftNote');
     if(count >= GIFT_THRESHOLD){
       note.className='gift-note done';
-      note.innerHTML = '['+count+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩';
+      var extraMsg = count > GIFT_THRESHOLD ? '<span class="gift-extra">내 취향이 2026-27 시즌 김포버스커 심사에 반영되는 중 …</span>' : '';
+      note.innerHTML = '['+count+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩'+extraMsg;
     } else {
       note.className='gift-note';
       note.textContent = '커피 기프티콘 응모까지 ['+emptySlots+'팀] 더 투표 해주세요!☕';
@@ -906,11 +923,23 @@
     var voter = getCurrentVoter();
     if(!voter) return;
     voter.votes = voter.votes || {};
+    var prevCount = Object.keys(voter.votes).length;
+    var alreadyVoted = !!voter.votes[currentPerfId];
     voter.votes[currentPerfId] = {satisfaction:selectedVal, votedAt:new Date().toISOString()};
+    var newCount = Object.keys(voter.votes).length;
     saveState();
     submitVoteToSheet(voter, currentPerfId, selectedVal, 'vote');
-    closeSurvey();
     renderAll();
+    var justReachedGift = !alreadyVoted && prevCount < GIFT_THRESHOLD && newCount >= GIFT_THRESHOLD;
+    if(justReachedGift){
+      // 만족도 조사 모달은 바로 닫고(히스토리는 그대로 유지), 그 자리에 기프티콘 응모 완료 팝업을 띄운다.
+      // 뒤로가기를 누르면 이 팝업도 기존 모달과 똑같은 방식으로 닫히게 된다.
+      document.getElementById('surveyOverlay').classList.remove('show');
+      document.getElementById('giftPopupTitle').innerHTML = '['+GIFT_THRESHOLD+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩';
+      document.getElementById('giftPopupOverlay').classList.add('show');
+    } else {
+      closeSurvey();
+    }
   });
 
   // 투표취소: 로컬에서 해당 버스커 투표를 지우고, 구글시트에서도 그 행을 실제로 삭제한다.
@@ -939,10 +968,19 @@
   window.addEventListener('popstate', function(e){
     document.getElementById('surveyOverlay').classList.remove('show');
     document.getElementById('adminOverlay').classList.remove('show');
+    document.getElementById('giftPopupOverlay').classList.remove('show');
     var st = e.state;
     if(!st || st.screen !== 'vote'){
       showRegisterScreen();
     }
+  });
+
+  // ---------------- 기프티콘 응모 완료 팝업 닫기 ----------------
+  document.getElementById('closeGiftPopup').addEventListener('click', function(){
+    if(document.getElementById('giftPopupOverlay').classList.contains('show')) history.back();
+  });
+  document.getElementById('btnGiftPopupOk').addEventListener('click', function(){
+    if(document.getElementById('giftPopupOverlay').classList.contains('show')) history.back();
   });
 
   // ---------------- 관리자 모달 ----------------
