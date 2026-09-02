@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>&lt;2026 김포버스킹 페스티벌&gt; 시민투표</title>
+<style>
+  :root{
+    --green-dark:#1f5c3d;
+    --green:#2f8b4f;
+    --green-mid:#3fa85f;
+    --green-light:#eaf7ec;
+    --yellow:#ffcd3c;
+    --yellow-dark:#f5a800;
+    --pink:#ff6fa0;
+    --pink-light:#ffe1ec;
+    --cream:#fdeccb;
+    --blue-pastel:#d7ecff;
+    --mint-pastel:#dff5e6;
+    --gray-voted:#c7cbd1;
+    --gray-dark:#8a8f98;
+    --ink:#1c2b22;
+    --white:#ffffff;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,255,255,0.18) 0, transparent 45%),
+      linear-gradient(180deg,#dff2df 0%, #bfe6c2 40%, #eaf7ec 100%);
+    font-family:'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    padding:16px 10px 60px;
+  }
+  h1,h2,h3{font-family:'Noto Sans KR',sans-serif; font-weight:700; letter-spacing:-0.2px;}
+  .lockup-font{font-family:'Black Han Sans','Noto Sans KR',sans-serif; letter-spacing:0.5px;}
+  .wrap{max-width:480px;margin:0 auto;}
+
+  /* ---------- top banner ---------- */
+  .banner{
+    background:
+      radial-gradient(circle at 85% 0%, rgba(255,255,255,0.10) 0, transparent 55%),
+      linear-gradient(160deg,#8fd66a 0%, #2f8b4f 55%, #1f5c3d 100%);
+    border-radius:22px;
+    padding:18px 16px 20px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 24px rgba(31,92,61,0.28);
+  }
+  .banner-deco{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .banner-deco span{position:absolute;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.08));}
+  .pill{
+    display:block;
+    width:fit-content;
+    max-width:100%;
+    margin:0 auto 12px;
+    background:var(--yellow);
+    color:#5a3d00;
+    font-weight:700;
+    font-size:10.8px;
+    text-align:center;
+    padding:5px 11px;
+    border-radius:999px;
+    position:relative;
+    z-index:2;
+  }
+  .lockup{position:relative;z-index:2;margin:0 0 12px;line-height:1;}
+  .lockup-single{
+    display:inline-block;
+    background:#fff;
+    color:#19644f;
+    font-size:14px;
+    line-height:1.4;
+    padding:10px 18px;
+    border-radius:18px;
+    box-shadow:0 3px 0 rgba(0,0,0,0.06);
+    position:relative;
+    max-width:100%;
+  }
+  .lockup-note{position:absolute;top:-13px;right:-8px;font-size:18px;transform:rotate(12deg);}
+  .banner h1{
+    font-size:15.5px;
+    font-weight:700;
+    line-height:1.45;
+    margin:0 0 8px;
+    position:relative;
+    z-index:2;
+    text-wrap:balance;
+    text-align:center;
+  }
+  .banner .sub{
+    font-size:12.5px;
+    opacity:0.95;
+    margin:2px 0 0;
+    position:relative;
+    z-index:2;
+    line-height:1.6;
+  }
+
+  .warning{
+    color:#c81e3a;
+    background:#fff0f2;
+    border:1.5px solid #ffc2cd;
+    border-radius:12px;
+    padding:10px 12px;
+    font-size:12px;
+    font-weight:500;
+    line-height:1.6;
+    margin:12px 0;
+  }
+  .warning b{font-weight:800;}
+
+  /* ---------- cards ---------- */
+  .card{
+    background:var(--white);
+    border-radius:18px;
+    padding:18px 16px;
+    box-shadow:0 6px 18px rgba(31,92,61,0.10);
+    margin-bottom:14px;
+  }
+  .card h2{font-size:16px;color:var(--green-dark);margin:0 0 12px;}
+  label{display:block;font-size:12.5px;font-weight:700;color:#3a4a3f;margin:12px 0 6px;}
+  label:first-of-type{margin-top:0;}
+  input[type=text],input[type=tel]{
+    width:100%;
+    padding:11px 12px;
+    border:1.5px solid #dbe6dc;
+    border-radius:10px;
+    font-size:14.5px;
+    font-family:inherit;
+    outline:none;
+    background:#fbfdfb;
+  }
+  input:focus{border-color:var(--green-mid);}
+  .cell-vote:focus-visible,.opt:focus-visible,.toggle-row:focus-visible,.chip:focus-visible{
+    outline:3px solid #1f5c3d; outline-offset:2px;
+  }
+  button:focus-visible{outline:3px solid #ffcd3c; outline-offset:2px;}
+  .consent-box{
+    background:var(--green-light);
+    border-radius:12px;
+    padding:12px;
+    margin-top:14px;
+    font-size:11.5px;
+    color:#3a4a3f;
+    line-height:1.6;
+  }
+  .consent-title{font-weight:700;font-size:12.5px;color:var(--green-dark);margin-bottom:4px;}
+  .toggle-row{
+    display:flex;align-items:center;gap:10px;
+    margin-top:10px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .toggle{
+    width:44px;height:25px;border-radius:999px;background:#d3dad4;position:relative;flex:none;
+    transition:background .15s;
+  }
+  .toggle::after{
+    content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.25);transition:left .15s;
+  }
+  .toggle.on{background:var(--green-mid);}
+  .toggle.on::after{left:22px;}
+  .toggle-label{font-size:13px;font-weight:700;}
+
+  .btn{
+    display:block;width:100%;
+    border:none;border-radius:12px;
+    padding:14px;
+    font-size:15.5px;font-weight:700;
+    font-family:'Noto Sans KR',sans-serif;
+    cursor:pointer;
+    text-align:center;
+  }
+  .btn-green{background:var(--green); color:#fff; box-shadow:0 6px 14px rgba(47,139,79,0.3);}
+  .btn-green:disabled{background:#c6d3c9;box-shadow:none;cursor:not-allowed;}
+  .btn-yellow{background:var(--yellow); color:#5a3d00;}
+  .btn-outline{background:#fff;color:var(--green-dark);border:1.5px solid var(--green-mid);}
+  .btn-ghost{background:transparent;color:#5c6a60;font-weight:600;font-size:12.5px;text-decoration:underline;padding:6px;}
+
+  .err{color:#c81e3a;font-size:11.5px;margin-top:6px;display:none;}
+
+  /* ---------- vote screen ---------- */
+  #screen-vote{display:none;}
+  .vote-topbar{display:flex;justify-content:flex-end;margin-bottom:8px;}
+  .btn-switch{
+    background:#fff;border:1.5px solid var(--green-mid);color:var(--green-dark);
+    font-size:11px;font-weight:700;padding:6px 13px;border-radius:999px;cursor:pointer;
+  }
+  .greet{
+    background:linear-gradient(135deg,var(--green-mid),var(--green-dark));
+    color:#fff;border-radius:16px;padding:13px 14px;margin-bottom:12px;
+    font-size:14.5px; font-weight:700; line-height:1.4; text-align:center;
+  }
+  .greet b{font-size:1.3em;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end;font-size:10.5px;color:#5c6a60;margin:2px 0 10px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend i{width:12px;height:12px;border-radius:4px;display:inline-block;}
+  .legend i.mix{background:conic-gradient(var(--blue-pastel) 0deg 120deg, var(--cream) 120deg 240deg, var(--mint-pastel) 240deg 360deg);}
+
+  .timetable-card{padding:12px 8px 16px;}
+  .genre-row{
+    display:grid;
+    grid-template-columns:44px 1fr 1fr 1fr;
+    gap:3px;
+    margin-bottom:6px;
+  }
+  .genre-item{display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .genre-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.12);}
+  .genre-icon-a{background:#4c9be0;}
+  .genre-icon-b{background:#f0ac1e;}
+  .genre-icon-c{background:#3fa85f;}
+  .genre-label{font-size:9.3px;font-weight:800;letter-spacing:0.2px;}
+  .genre-A{color:#4c9be0;}
+  .genre-B{color:#e0a020;}
+  .genre-C{color:#3fa85f;}
+  .stage-head-row{
+    display:grid;
+    grid-template-columns:44px 1fr 1fr 1fr;
+    gap:3px;
+    margin-bottom:4px;
+  }
+  .stage-head{
+    background:#eef3ee;border-radius:8px;
+    text-align:center;padding:6px 2px;
+    font-size:10px; font-weight:700; color:var(--green-dark);
+    line-height:1.3;
+  }
+  .stage-head small{display:block;font-weight:500;color:#7c8a80;font-size:8.3px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:44px 1fr 1fr 1fr;
+    grid-auto-rows:minmax(13px,auto);
+    gap:3px;
+    position:relative;
+  }
+  .time-label{
+    background:#f1f4f1;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:9.5px;font-weight:700;color:#4a564d;
+    text-align:center;line-height:1.35;padding:2px;
+    writing-mode:horizontal-tb;
+  }
+  .cell{
+    border-radius:7px;
+    padding:3px 3px;
+    font-size:8.6px;
+    line-height:1.28;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    border:none;
+    font-family:'Noto Sans KR',sans-serif;
+    overflow:hidden;
+  }
+  .cell .t{font-weight:700;font-size:8.1px;opacity:0.75;}
+  .cell .n{font-weight:700;font-size:9.3px;margin-top:1px;}
+  .cell-vote{cursor:pointer;}
+  .cell-vote:active{transform:scale(0.96);}
+  .c0{background:var(--blue-pastel);}
+  .c1{background:var(--cream);}
+  .c2{background:var(--mint-pastel);}
+  .cell-prep{background:#e4e6e8;color:#8a8f98;}
+  .cell-prep.cell-tiny{padding:1px;}
+  .cell-prep.cell-tiny .n{font-size:7.6px;white-space:nowrap;}
+  .cell-special{background:var(--pink-light);color:#a1436a;}
+  .cell-done{
+    background:var(--gray-voted)!important;
+    color:#4c525a;
+    position:relative;
+  }
+  .cell-done .n::after{content:" ✓";}
+
+  /* ---------- progress ---------- */
+  .progress-card{}
+  .progress-title{font-size:13.5px;font-weight:700;color:var(--green-dark);margin-bottom:2px;}
+  .progress-sub{font-size:10.5px;color:#7c8a80;margin-bottom:10px;}
+  .chip-group{margin-bottom:10px;}
+  .chip-group-label{font-size:10.8px;font-weight:800;color:var(--green-dark);margin-bottom:6px;}
+  .progress-groups{display:flex;flex-direction:column;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .chip{
+    border-radius:14px;padding:7px 12px;font-size:11.5px;font-weight:700;
+    min-width:64px;text-align:center;
+  }
+  .chip-done{background:var(--yellow);color:#5a3d00;cursor:pointer;}
+  .chip-done:active{transform:scale(0.96);}
+  .chip-meta{display:block;font-size:8.6px;font-weight:700;opacity:0.75;margin-bottom:1px;}
+  .chip-empty{
+    background:rgba(255,255,255,0.5);
+    border:1.5px dashed #c3cbc4;
+    color:#9aa39c;
+  }
+  .gift-note{
+    text-align:center;font-size:12.5px;font-weight:700;color:var(--green-dark);
+    background:var(--green-light);border-radius:10px;padding:9px;
+  }
+  .gift-note.done{background:#fff3d6;color:#8a5a00;}
+
+  .admin-link{
+    text-align:center;margin-top:18px;
+  }
+  .admin-link button{
+    background:none;border:none;color:#7c8a80;font-size:11px;text-decoration:underline;cursor:pointer;
+  }
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(20,35,25,0.55);
+    display:none;align-items:flex-end;justify-content:center;z-index:50;
+    padding:0;
+  }
+  .overlay.show{display:flex;}
+  .sheet{
+    position:relative;
+    background:#fff;width:100%;max-width:480px;border-radius:20px 20px 0 0;
+    padding:20px 18px 24px;
+    max-height:88vh;overflow-y:auto;
+  }
+  .sheet-handle{width:38px;height:4px;background:#e2e6e2;border-radius:99px;margin:0 auto 14px;}
+  .sheet-title{font-size:15px;font-weight:700;color:var(--green-dark);text-align:center;margin-bottom:2px;}
+  .sheet-perf{font-size:23px;font-weight:600;text-align:center;margin:4px 0 2px;font-family:'Noto Sans KR',sans-serif;}
+  .sheet-time{font-size:12px;color:#7c8a80;text-align:center;margin-bottom:16px;}
+  .q{font-size:14px;font-weight:700;text-align:center;margin-bottom:14px;color:var(--ink);}
+  .opt-row{display:flex;flex-direction:column;gap:9px;margin-bottom:16px;}
+  .opt{
+    border:2px solid #e4ebe4;border-radius:12px;padding:13px;
+    display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;font-size:14px;
+  }
+  .opt .emoji{font-size:20px;}
+  .opt.sel{border-color:var(--green-mid);background:var(--green-light);}
+  .close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;color:#9aa39c;cursor:pointer;}
+  .btn-cancel{background:var(--pink-light);color:#a1436a;margin-top:8px;}
+
+  /* admin modal */
+  #adminBody .card{margin-bottom:10px;}
+  .admin-stat{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dashed #e5e9e5;}
+  .admin-warn{font-size:10.8px;color:#9a7300;background:#fff8e6;border-radius:8px;padding:8px;margin-top:8px;line-height:1.5;}
+  .tally-badge{margin-top:1px;font-size:7.6px;font-weight:800;color:#c81e3a;background:rgba(255,255,255,0.85);border-radius:5px;padding:0.5px 4px;display:inline-block;}
+  .tally-loading{grid-column:1/5;text-align:center;padding:22px 0;color:#7c8a80;font-size:12px;}
+
+  footer{text-align:center;font-size:10.5px;color:#8aa08e;margin-top:18px;}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner">
+    <div class="banner-deco" aria-hidden="true">
+      <span style="top:6px;left:8px;font-size:17px;opacity:0.5;">🎷</span>
+      <span style="top:96px;left:6px;font-size:16px;opacity:0.55;">🎼</span>
+      <span style="top:150px;left:14px;font-size:14px;opacity:0.5;">✦</span>
+      <span style="top:4px;right:10px;font-size:15px;opacity:0.55;">✨</span>
+      <span style="top:60px;right:8px;font-size:18px;opacity:0.5;">🎺</span>
+      <span style="bottom:6px;right:14px;font-size:16px;opacity:0.55;">🎪</span>
+      <span style="bottom:8px;left:100px;font-size:14px;opacity:0.5;">🌼</span>
+      <span style="top:118px;right:70px;font-size:13px;opacity:0.5;">🎈</span>
+    </div>
+    <span class="pill">2026-27 시즌 김포버스커 선발 2차 현장 오디션<br>&lt;2026 김포 버스킹 페스티벌&gt;</span>
+
+    <div class="lockup lockup-font">
+      <div class="lockup-single">[Who's NEXT? : 2026-27 김포버스커]<br>2차 현장 오디션 시민 투표<span class="lockup-note">🎵</span></div>
+    </div>
+
+    <h1>내가 뽑는 김포버스커!<br>마음에 드는 버스커 5팀 이상 투표하고<br>추첨을 통해 커피 기프티콘 받아가세요!</h1>
+    <div class="sub">📅 2026.9.6.(일) 13:00–17:00<br>📍 김포아트빌리지 잔디광장 일원 스테이지 A, B, C</div>
+  </div>
+
+  <div class="warning">
+    ※ 개별 투표 시간을 확인하여 <b>'공연 시작 전 투표건'</b> 등 공연을 <b>직접 보지 않고 무작위로 투표</b>한 경우 <b>무효표</b>로 처리 됩니다.
+  </div>
+
+  <!-- ================= 등록 화면 ================= -->
+  <div id="screen-register">
+    <div class="card">
+      <h2>👤 참여자 정보 입력</h2>
+      <label for="inName">이름</label>
+      <input type="text" id="inName" placeholder="이름을 입력해주세요" maxlength="20">
+      <label for="inPhone">연락처</label>
+      <input type="tel" id="inPhone" placeholder="010-0000-0000" maxlength="14">
+
+      <div class="consent-box">
+        <div class="consent-title">개인정보 수집·이용 동의 (필수)</div>
+        · 수집항목: 이름, 연락처<br>
+        · 수집목적: 시민투표 참여 확인 및 경품(커피 기프티콘) 당첨자 안내<br>
+        · 보유기간: 행사 종료 후 파기<br>
+        동의를 거부할 권리가 있으며, 미동의 시 투표 참여가 제한됩니다.
+        <div class="toggle-row" id="consentRow" tabindex="0" role="switch" aria-checked="false" aria-label="개인정보 수집·이용 동의">
+          <div class="toggle" id="consentToggle"></div>
+          <div class="toggle-label" id="consentLabel">동의하지 않음</div>
+        </div>
+      </div>
+
+      <div class="err" id="regErr">이름, 연락처를 입력하고 개인정보 수집에 동의해주세요.</div>
+      <div style="margin-top:16px;">
+        <button class="btn btn-green" id="btnRegister">시민투표 참여하기 ☑️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 투표 화면 ================= -->
+  <div id="screen-vote">
+    <div class="vote-topbar"><button class="btn-switch" id="btnSwitchVoter">🔄 참여자 변경</button></div>
+    <div class="greet"><b id="greetName">참여자</b>님, 관람하신 버스커를 선택해 투표해주세요 🙌</div>
+
+    <div class="legend">
+      <span><i class="mix"></i>투표 전</span>
+      <span><i style="background:var(--gray-voted)"></i>투표 완료</span>
+    </div>
+
+    <div class="card timetable-card">
+      <div class="genre-row">
+        <div></div>
+        <div class="genre-item">
+          <span class="genre-icon genre-icon-a">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <circle cx="13.2" cy="4.9" r="2.15" fill="#fff"/>
+              <path d="M13.2 7.2v6.1" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+              <path d="M13.2 8.7 8.3 6.1" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+              <path d="M13.2 10.6 18.3 9.4" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+              <path d="M13.2 13.3 8.6 19.3" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+              <path d="M13.2 13.3 17.2 18.7" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="genre-label genre-A">퍼포먼스</span>
+        </div>
+        <div class="genre-item">
+          <span class="genre-icon genre-icon-b">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <circle cx="7.2" cy="17" r="2.3" fill="#fff"/>
+              <rect x="8.9" y="6.2" width="1.5" height="11" fill="#fff"/>
+              <circle cx="15.4" cy="15.2" r="2.3" fill="#fff"/>
+              <rect x="17.1" y="4.4" width="1.5" height="11" fill="#fff"/>
+              <path d="M10.1 6.2 18.6 4.4v2.3L10.1 8.5Z" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="genre-label genre-B">음악</span>
+        </div>
+        <div class="genre-item">
+          <span class="genre-icon genre-icon-c">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M7 5 9.6 12 7 19 17 19 14.4 12 17 5 Z" fill="#fff"/>
+              <ellipse cx="12" cy="5" rx="5.4" ry="1.9" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
+              <ellipse cx="12" cy="19" rx="5.4" ry="1.9" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
+              <path d="M8 8.6 16 15.4M16 8.6 8 15.4" stroke="#1f5c3d" stroke-width="1.1" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="genre-label genre-C">국악</span>
+        </div>
+      </div>
+      <div class="stage-head-row">
+        <div></div>
+        <div class="stage-head">스테이지 A<small>아트센터 앞 무대</small></div>
+        <div class="stage-head">스테이지 B<small>잔디광장 데크무대</small></div>
+        <div class="stage-head">스테이지 C<small>행사장 진입로 무대</small></div>
+      </div>
+      <div class="grid" id="timetableGrid"></div>
+    </div>
+
+    <div class="card progress-card">
+      <div class="progress-title">🎁 투표 완료 공연 🎁</div>
+      <div class="progress-sub">5팀 이상 투표하면 커피 기프티콘 자동 응모!</div>
+      <div class="progress-groups" id="chipRow"></div>
+      <div class="gift-note" id="giftNote"></div>
+    </div>
+
+    <div class="admin-link"><button id="btnAdmin">⚙ 관리자 모드</button></div>
+  </div>
+
+  <footer>(재)김포문화재단 · 공연기획팀 031.999.3968</footer>
+</div>
+
+<!-- ================= 만족도 조사 모달 ================= -->
+<div class="overlay" id="surveyOverlay">
+  <div class="sheet">
+    <button class="close-x" id="closeSurvey">✕</button>
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="surveyStageTime"></div>
+    <div class="sheet-perf" id="surveyPerfName"></div>
+    <div class="q">관람하신 버스커의 공연에<br>만족하시나요?</div>
+    <div class="opt-row" id="optRow">
+      <div class="opt" data-v="매우 좋았다" tabindex="0" role="radio" aria-checked="false"><span class="emoji">😍</span>매우 좋았다</div>
+      <div class="opt" data-v="보통이다" tabindex="0" role="radio" aria-checked="false"><span class="emoji">😐</span>보통이다</div>
+      <div class="opt" data-v="매우 아니다" tabindex="0" role="radio" aria-checked="false"><span class="emoji">😞</span>매우 아니다</div>
+    </div>
+    <button class="btn btn-green" id="btnCompleteVote" disabled>투표완료 ☑️</button>
+    <button class="btn btn-cancel" id="btnCancelVote" style="display:none;">투표취소 ❌</button>
+  </div>
+</div>
+
+<!-- ================= 관리자 모달 ================= -->
+<div class="overlay" id="adminOverlay">
+  <div class="sheet">
+    <button class="close-x" id="closeAdmin">✕</button>
+    <div class="sheet-handle"></div>
+    <div id="adminBody">
+      <div class="sheet-title" style="margin-bottom:14px;">⚙ 관리자 모드</div>
+      <label for="inPw">비밀번호</label>
+      <input type="text" id="inPw" placeholder="••••" inputmode="numeric" maxlength="8">
+      <div class="err" id="pwErr">비밀번호가 올바르지 않습니다.</div>
+      <button class="btn btn-green" style="margin-top:14px;" id="btnPwOk">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---------------- 공연 데이터 ----------------
+  var PERFORMANCES = [
+    {id:'A1',stage:'A',start:'13:00',end:'13:20',name:'MIK 매직',color:'c0'},
+    {id:'A2',stage:'A',start:'13:20',end:'13:40',name:'새비',color:'c1'},
+    {id:'A3',stage:'A',start:'13:40',end:'14:00',name:'김경호(아코디언킴)',color:'c1'},
+    {id:'A4',stage:'A',start:'14:00',end:'14:20',name:'한국광대',color:'c0'},
+    {id:'A5',stage:'A',start:'14:20',end:'14:40',name:'김민석',color:'c1'},
+    {id:'A6',stage:'A',start:'14:40',end:'15:00',name:'밴드 이상한 술집',color:'c1'},
+    {id:'A7',stage:'A',start:'15:30',end:'15:50',name:'뮤랑극단',color:'c1'},
+    {id:'A8',stage:'A',start:'15:50',end:'16:10',name:'헬로유기농',color:'c1'},
+    {id:'A9',stage:'A',start:'16:10',end:'16:30',name:'알파카어쿠스테이지',color:'c1'},
+    {id:'A10',stage:'A',start:'16:30',end:'16:50',name:'서기석',color:'c0'},
+
+    {id:'B1',stage:'B',start:'13:10',end:'13:30',name:'창작음악집단 두럭',color:'c2'},
+    {id:'B2',stage:'B',start:'13:30',end:'13:50',name:'암행악사',color:'c1'},
+    {id:'B3',stage:'B',start:'13:50',end:'14:10',name:'채움극단',color:'c0'},
+    {id:'B4',stage:'B',start:'14:10',end:'14:30',name:'퀸즈밴드',color:'c1'},
+    {id:'B5',stage:'B',start:'15:40',end:'16:00',name:'유원석',color:'c0'},
+    {id:'B6',stage:'B',start:'16:00',end:'16:20',name:'소리',color:'c1'},
+    {id:'B7',stage:'B',start:'16:20',end:'16:40',name:'김나린',color:'c1'},
+    {id:'B8',stage:'B',start:'16:40',end:'17:00',name:'로로컴퍼니',color:'c1'},
+
+    {id:'C1',stage:'C',start:'13:00',end:'13:20',name:'구각노리',color:'c2'},
+    {id:'C2',stage:'C',start:'13:20',end:'13:40',name:'심각한 개구리',color:'c1'},
+    {id:'C3',stage:'C',start:'13:40',end:'14:00',name:'요들누나 동혜',color:'c1'},
+    {id:'C4',stage:'C',start:'14:00',end:'14:20',name:'기봉',color:'c1'},
+    {id:'C5',stage:'C',start:'14:20',end:'14:40',name:'더 탭댄스 퍼포먼스 컴퍼니',color:'c0'},
+    {id:'C6',stage:'C',start:'14:40',end:'15:00',name:'용용클태 Y2KT',color:'c2'},
+    {id:'C7',stage:'C',start:'15:30',end:'15:50',name:'타미르',color:'c1'},
+    {id:'C8',stage:'C',start:'15:50',end:'16:10',name:'전병철',color:'c1'},
+    {id:'C9',stage:'C',start:'16:10',end:'16:30',name:'아코디언 주연',color:'c1'},
+    {id:'C10',stage:'C',start:'16:30',end:'16:50',name:'클라운쏭',color:'c0'}
+  ];
+  var NONVOTE = [
+    {stage:'A',start:'15:00',end:'15:30',label:'무대정비',type:'prep'},
+    {stage:'B',start:'14:30',end:'15:00',label:'무대정비',type:'prep'},
+    {stage:'B',start:'15:00',end:'15:30',label:'특별공연',type:'special'},
+    {stage:'B',start:'15:30',end:'15:40',label:'무대정비',type:'prep'},
+    {stage:'B',start:'17:00',end:'17:10',label:'무대정비',type:'prep'},
+    {stage:'B',start:'17:10',end:'17:40',label:'특별공연',type:'special'},
+    {stage:'C',start:'15:00',end:'15:30',label:'무대정비',type:'prep'}
+  ];
+  var GIFT_THRESHOLD = 5;
+  var ADMIN_PW = '1207';
+  var STORE_KEY = 'gbf_vote_state_v1';
+  // ---------------- 구글시트 연동 (Apps Script 웹앱, 행사 당일 여러 기기 데이터 취합용) ----------------
+  // webAppUrl이 설정되면: 투표할 때마다 참여자ID+버스커 기준으로 시트에 즉시 반영(같은 조합이면 그 행을
+  // 덮어쓰기=수정, 없으면 새 행 추가), 투표취소 시 해당 행을 실제로 삭제합니다. 별도 헬퍼컬럼/중복정리가 필요없어요.
+  var GOOGLE_SHEET = {
+    enabled:true,
+    webAppUrl:'https://script.google.com/macros/s/AKfycbwV6es48zLV5Oy0dWHI4FcBFv6zmvkl1s2uwL7QFrkLIhMfhelViEEvTjR2AQi718Bv/exec'
+  };
+  function submitVoteToSheet(voter, perfId, satisfaction, action){
+    if(!GOOGLE_SHEET.enabled || !GOOGLE_SHEET.webAppUrl) return;
+    try{
+      var p = byId[perfId];
+      var count = Object.keys(voter.votes||{}).length;
+      var payload = {
+        action: action || 'vote',           // 'vote' | 'cancel'
+        name: voter.name,
+        phone: voter.phone,
+        consent: voter.consent?'동의':'미동의',
+        voterId: voter.id,
+        busker: p ? p.name : perfId,
+        answer: satisfaction,
+        gift: count>=GIFT_THRESHOLD ? '대상' : '비대상',
+        updatedAt: new Date().toISOString()
+      };
+      fetch(GOOGLE_SHEET.webAppUrl, {
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+      }).catch(function(){});
+    }catch(err){}
+  }
+
+  var byId = {};
+  PERFORMANCES.forEach(function(p){ byId[p.id]=p; });
+
+  // ---------------- 상태 저장/로드 ----------------
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {voters:[], currentVoterId:null};
+  }
+  function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+  var state = loadState();
+
+  function getCurrentVoter(){
+    if(!state.currentVoterId) return null;
+    return state.voters.find(function(v){ return v.id===state.currentVoterId; }) || null;
+  }
+
+  // ---------------- 시간 → grid row ----------------
+  function toMin(t){ var p=t.split(':'); return (+p[0])*60+(+p[1]) - 13*60; }
+  function rowRange(start,end){
+    var s = 2 + toMin(start)/10;
+    var e = 2 + toMin(end)/10;
+    return s+' / '+e;
+  }
+
+  // ---------------- 타임테이블 렌더 ----------------
+  var stageColIndex = {A:2,B:3,C:4};
+
+  // 공통 그리드 렌더러 - 투표전 셀(퍼포먼스)의 스타일/내용만 cellDecorator로 위임
+  function buildGridInto(grid, cellDecorator){
+    grid.innerHTML = '';
+
+    // 시간 라벨 (13~18시, 1시간 단위)
+    var hourBlocks = ['13:00-14:00','14:00-15:00','15:00-16:00','16:00-17:00','17:00-18:00'];
+    hourBlocks.forEach(function(h){
+      var parts = h.split('-');
+      var d = document.createElement('div');
+      d.className='time-label';
+      d.style.gridColumn='1';
+      d.style.gridRow=rowRange(parts[0],parts[1]);
+      d.innerHTML = parts[0]+'<br>~<br>'+parts[1];
+      grid.appendChild(d);
+    });
+
+    ['A','B','C'].forEach(function(stage){
+      var items = PERFORMANCES.filter(function(p){return p.stage===stage;})
+        .concat(NONVOTE.filter(function(p){return p.stage===stage;}))
+        .sort(function(a,b){ return toMin(a.start)-toMin(b.start); });
+
+      items.forEach(function(item){
+        var el = document.createElement('div');
+        el.style.gridColumn = stageColIndex[stage];
+        el.style.gridRow = rowRange(item.start,item.end);
+        var dur = toMin(item.end)-toMin(item.start);
+
+        if(item.type==='prep'){
+          el.className='cell cell-prep'+(dur<=10?' cell-tiny':'');
+          el.innerHTML = dur<=10
+            ? '<div class="n">'+item.start+'~'+item.end+' 무대정비</div>'
+            : '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">무대정비</div>';
+        } else if(item.type==='special'){
+          el.className='cell cell-special';
+          el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">🎤특별공연<br>&lt;트롯매직쇼&gt;</div>';
+        } else {
+          cellDecorator(el, item);
+        }
+        grid.appendChild(el);
+      });
+    });
+  }
+
+  function buildTimetable(){
+    var grid = document.getElementById('timetableGrid');
+    buildGridInto(grid, function(el, item){
+      var voter = getCurrentVoter();
+      var voted = voter && voter.votes && voter.votes[item.id];
+      el.className='cell cell-vote '+(voted?'cell-done':item.color);
+      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">'+item.name+'</div>';
+      el.setAttribute('tabindex','0');
+      el.setAttribute('role','button');
+      el.setAttribute('aria-label', item.name+' '+item.start+'~'+item.end+(voted?' (투표 완료, 다시 투표하려면 선택)':' 투표하기'));
+      el.addEventListener('click', function(){ openSurvey(item.id); });
+      el.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openSurvey(item.id); }
+      });
+    });
+  }
+
+  // 관리자 모드 - 버스커별 "매우 좋았다" 득표수를 배지로 표시하는 그리드
+  function buildAdminTallyGrid(counts){
+    var grid = document.getElementById('adminTallyGrid');
+    if(!grid) return;
+    buildGridInto(grid, function(el, item){
+      el.className='cell '+item.color;
+      var c = counts[item.name] || 0;
+      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">'+item.name+'</div><div class="tally-badge">😍 '+c+'</div>';
+    });
+  }
+
+  // ---------------- 진행상황(하단 칩, 스테이지별 구분) ----------------
+  function renderProgress(){
+    var voter = getCurrentVoter();
+    var votedIds = voter ? Object.keys(voter.votes||{}) : [];
+    var count = votedIds.length;
+    var row = document.getElementById('chipRow');
+    row.innerHTML='';
+
+    var byStage = {A:[],B:[],C:[]};
+    votedIds.forEach(function(id){
+      var p = byId[id];
+      if(p) byStage[p.stage].push(id);
+    });
+
+    ['A','B','C'].forEach(function(stage){
+      var ids = byStage[stage];
+      if(!ids.length) return;
+      ids.sort(function(a,b){ return toMin(byId[a].start)-toMin(byId[b].start); });
+      var group = document.createElement('div');
+      group.className='chip-group';
+      group.innerHTML = '<div class="chip-group-label">스테이지 '+stage+'</div>';
+      var sub = document.createElement('div');
+      sub.className='chip-row';
+      ids.forEach(function(id){
+        var p = byId[id];
+        var c = document.createElement('div');
+        c.className='chip chip-done';
+        c.tabIndex = 0;
+        c.setAttribute('role','button');
+        c.setAttribute('aria-label', p.name+' 응답 수정하기');
+        c.innerHTML = '<span class="chip-meta">'+p.start+'~'+p.end+'</span>'+p.name;
+        c.addEventListener('click', function(){ openSurvey(id); });
+        c.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openSurvey(id);} });
+        sub.appendChild(c);
+      });
+      group.appendChild(sub);
+      row.appendChild(group);
+    });
+
+    var emptySlots = Math.max(0, GIFT_THRESHOLD - count);
+    if(emptySlots > 0){
+      var erow = document.createElement('div');
+      erow.className='chip-row';
+      for(var i=0;i<emptySlots;i++){
+        var c2 = document.createElement('div');
+        c2.className='chip chip-empty';
+        c2.textContent='투표 전';
+        erow.appendChild(c2);
+      }
+      row.appendChild(erow);
+    }
+
+    var note = document.getElementById('giftNote');
+    if(count >= GIFT_THRESHOLD){
+      note.className='gift-note done';
+      note.innerHTML = '['+count+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩';
+    } else {
+      note.className='gift-note';
+      note.textContent = '커피 기프티콘 응모까지 ['+emptySlots+'팀] 더 투표 해주세요!☕';
+    }
+  }
+
+  function renderAll(){
+    buildTimetable();
+    renderProgress();
+    var voter = getCurrentVoter();
+    document.getElementById('greetName').textContent = voter ? voter.name : '참여자';
+  }
+
+  // ---------------- 화면 전환 ----------------
+  function showVoteScreen(){
+    document.getElementById('screen-register').style.display='none';
+    document.getElementById('screen-vote').style.display='block';
+    renderAll();
+  }
+  function showRegisterScreen(){
+    document.getElementById('screen-vote').style.display='none';
+    document.getElementById('screen-register').style.display='block';
+  }
+
+  if(getCurrentVoter()){ showVoteScreen(); } else { showRegisterScreen(); }
+
+  // ---------------- 연락처 자동 하이픈 ----------------
+  function formatPhone(v){
+    var d = v.replace(/[^0-9]/g,'').slice(0,11);
+    if(d.length < 4) return d;
+    if(d.length < 7) return d.slice(0,3)+'-'+d.slice(3);
+    if(d.length < 11) return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6);
+    return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7,11);
+  }
+  var inPhoneEl = document.getElementById('inPhone');
+  inPhoneEl.addEventListener('input', function(){
+    var pos = inPhoneEl.selectionStart;
+    var before = inPhoneEl.value.length;
+    inPhoneEl.value = formatPhone(inPhoneEl.value);
+    var after = inPhoneEl.value.length;
+    var newPos = pos + (after-before);
+    inPhoneEl.setSelectionRange(newPos, newPos);
+  });
+
+  // ---------------- 등록 화면 로직 ----------------
+  var consentOn = false;
+  function toggleConsent(){
+    consentOn = !consentOn;
+    document.getElementById('consentToggle').classList.toggle('on', consentOn);
+    document.getElementById('consentLabel').textContent = consentOn ? '동의함' : '동의하지 않음';
+    document.getElementById('consentRow').setAttribute('aria-checked', String(consentOn));
+  }
+  var consentRowEl = document.getElementById('consentRow');
+  consentRowEl.addEventListener('click', toggleConsent);
+  consentRowEl.addEventListener('keydown', function(e){
+    if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleConsent(); }
+  });
+
+  document.getElementById('btnRegister').addEventListener('click', function(){
+    var name = document.getElementById('inName').value.trim();
+    var phone = document.getElementById('inPhone').value.trim();
+    var errEl = document.getElementById('regErr');
+    if(!name || !phone || !consentOn){
+      errEl.style.display='block';
+      return;
+    }
+    errEl.style.display='none';
+    // 같은 이름+연락처로 이전에 참여한 기록이 있으면 그 참여자로 이어서 진행(투표내역 유지),
+    // 없으면 새 참여자로 등록합니다.
+    var existing = state.voters.find(function(v){ return v.name===name && v.phone===phone; });
+    if(existing){
+      existing.consent = true;
+      state.currentVoterId = existing.id;
+    } else {
+      var id = 'v'+Date.now()+Math.floor(Math.random()*1000);
+      var voter = {id:id, name:name, phone:phone, consent:true, registeredAt:new Date().toISOString(), votes:{}};
+      state.voters.push(voter);
+      state.currentVoterId = id;
+    }
+    saveState();
+    showVoteScreen();
+  });
+
+  // 참여자 변경: 입력값은 그대로 두고(초기화하지 않음) 등록 화면으로 돌아갑니다.
+  // 같은 이름+연락처를 다시 입력하면 위 등록 로직이 자동으로 기존 투표내역을 이어서 보여줍니다.
+  document.getElementById('btnSwitchVoter').addEventListener('click', function(){
+    state.currentVoterId = null;
+    saveState();
+    document.getElementById('regErr').style.display='none';
+    showRegisterScreen();
+  });
+
+  // ---------------- 만족도 조사 모달 ----------------
+  var currentPerfId = null;
+  var selectedVal = null;
+
+  function openSurvey(perfId){
+    currentPerfId = perfId;
+    var p = byId[perfId];
+    document.getElementById('surveyStageTime').textContent = '스테이지 '+p.stage+' · '+p.start+'-'+p.end;
+    document.getElementById('surveyPerfName').textContent = p.name;
+
+    var voter = getCurrentVoter();
+    var existing = voter && voter.votes && voter.votes[perfId];
+    selectedVal = existing ? existing.satisfaction : null;
+    document.querySelectorAll('.opt').forEach(function(o){
+      var isSel = existing && o.getAttribute('data-v')===existing.satisfaction;
+      o.classList.toggle('sel', !!isSel);
+      o.setAttribute('aria-checked', isSel ? 'true' : 'false');
+    });
+    document.getElementById('btnCompleteVote').disabled = !existing;
+    document.getElementById('btnCancelVote').style.display = existing ? 'block' : 'none';
+    document.getElementById('surveyOverlay').classList.add('show');
+  }
+  function closeSurvey(){ document.getElementById('surveyOverlay').classList.remove('show'); }
+  document.getElementById('closeSurvey').addEventListener('click', closeSurvey);
+
+  function selectOpt(o){
+    document.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); x.setAttribute('aria-checked','false'); });
+    o.classList.add('sel');
+    o.setAttribute('aria-checked','true');
+    selectedVal = o.getAttribute('data-v');
+    document.getElementById('btnCompleteVote').disabled = false;
+  }
+  document.querySelectorAll('.opt').forEach(function(o){
+    o.addEventListener('click', function(){ selectOpt(o); });
+    o.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); selectOpt(o); }
+    });
+  });
+
+  document.getElementById('btnCompleteVote').addEventListener('click', function(){
+    if(!selectedVal || !currentPerfId) return;
+    var voter = getCurrentVoter();
+    if(!voter) return;
+    voter.votes = voter.votes || {};
+    voter.votes[currentPerfId] = {satisfaction:selectedVal, votedAt:new Date().toISOString()};
+    saveState();
+    submitVoteToSheet(voter, currentPerfId, selectedVal, 'vote');
+    closeSurvey();
+    renderAll();
+  });
+
+  // 투표취소: 로컬에서 해당 버스커 투표를 지우고, 구글시트에서도 그 행을 실제로 삭제한다.
+  document.getElementById('btnCancelVote').addEventListener('click', function(){
+    var voter = getCurrentVoter();
+    if(!voter || !currentPerfId) return;
+    if(voter.votes){ delete voter.votes[currentPerfId]; }
+    saveState();
+    submitVoteToSheet(voter, currentPerfId, '', 'cancel');
+    closeSurvey();
+    renderAll();
+  });
+
+  // ---------------- 관리자 모달 ----------------
+  document.getElementById('btnAdmin').addEventListener('click', function(){
+    document.getElementById('inPw').value='';
+    document.getElementById('pwErr').style.display='none';
+    resetAdminBody();
+    document.getElementById('adminOverlay').classList.add('show');
+  });
+  document.getElementById('closeAdmin').addEventListener('click', function(){
+    document.getElementById('adminOverlay').classList.remove('show');
+  });
+
+  function resetAdminBody(){
+    var body = document.getElementById('adminBody');
+    body.innerHTML =
+      '<div class="sheet-title" style="margin-bottom:14px;">⚙ 관리자 모드</div>'+
+      '<label for="inPw">비밀번호</label>'+
+      '<input type="text" id="inPw" placeholder="••••" inputmode="numeric" maxlength="8">'+
+      '<div class="err" id="pwErr">비밀번호가 올바르지 않습니다.</div>'+
+      '<button class="btn btn-green" style="margin-top:14px;" id="btnPwOk">확인</button>';
+    document.getElementById('btnPwOk').addEventListener('click', checkPw);
+    document.getElementById('inPw').addEventListener('keydown', function(e){ if(e.key==='Enter') checkPw(); });
+  }
+  resetAdminBody();
+
+  function checkPw(){
+    var pw = document.getElementById('inPw').value.trim();
+    if(pw !== ADMIN_PW){
+      document.getElementById('pwErr').style.display='block';
+      return;
+    }
+    showAdminDashboard();
+  }
+
+  function showAdminDashboard(){
+    var body = document.getElementById('adminBody');
+    body.innerHTML =
+      '<div class="sheet-title" style="margin-bottom:10px;">📊 투표 현황 (관리자)</div>'+
+      '<div class="card" style="box-shadow:none;border:1.5px solid #eef1ee;">'+
+        '<div class="admin-stat"><span>등록 참여자 수</span><b id="statVoters">불러오는 중…</b></div>'+
+        '<div class="admin-stat"><span>총 투표 수</span><b id="statVotes">불러오는 중…</b></div>'+
+        '<div class="admin-stat" style="border-bottom:none;"><span>기프티콘 응모 대상</span><b id="statEligible">불러오는 중…</b></div>'+
+      '</div>'+
+      '<div class="admin-warn" id="adminSyncMsg">✅ 이 화면은 구글시트에 실제로 쌓인 데이터를 실시간으로 보여드려요. 시트를 열어도 같은 내용을 확인할 수 있어요.</div>'+
+      '<div class="sheet-title" style="margin-top:18px;margin-bottom:6px;">😍 실시간 "매우 좋았다" 득표 현황</div>'+
+      '<button class="btn btn-yellow" id="btnRefreshTally" style="margin-bottom:8px;">🔄 새로고침</button>'+
+      '<div class="err" id="tallyErr"></div>'+
+      '<div class="stage-head-row" style="margin-top:2px;">'+
+        '<div></div>'+
+        '<div class="stage-head">스테이지 A</div>'+
+        '<div class="stage-head">스테이지 B</div>'+
+        '<div class="stage-head">스테이지 C</div>'+
+      '</div>'+
+      '<div class="grid" id="adminTallyGrid"></div>';
+    document.getElementById('btnRefreshTally').addEventListener('click', loadTally);
+    loadTally();
+  }
+
+  // ---------------- 관리자: 구글시트(Apps Script 웹앱) 실시간 득표 집계 ----------------
+  function loadTally(){
+    var errEl = document.getElementById('tallyErr');
+    var gridEl = document.getElementById('adminTallyGrid');
+    if(!gridEl) return;
+    if(!GOOGLE_SHEET.enabled || !GOOGLE_SHEET.webAppUrl){
+      gridEl.innerHTML = '';
+      return;
+    }
+    if(errEl) errEl.style.display = 'none';
+    gridEl.innerHTML = '<div class="tally-loading">불러오는 중…</div>';
+    fetch(GOOGLE_SHEET.webAppUrl, {cache:'no-store'})
+      .then(function(res){ if(!res.ok) throw new Error('fetch failed'); return res.json(); })
+      .then(function(data){
+        if(!data || data.ok===false) throw new Error('server error');
+        var vEl = document.getElementById('statVoters');
+        var voEl = document.getElementById('statVotes');
+        var eEl = document.getElementById('statEligible');
+        if(vEl) vEl.textContent = (data.totalVoters||0)+'명';
+        if(voEl) voEl.textContent = (data.totalVotes||0)+'건';
+        if(eEl) eEl.textContent = (data.eligible||0)+'명';
+        buildAdminTallyGrid(data && data.counts ? data.counts : {});
+      })
+      .catch(function(){
+        if(errEl){
+          errEl.textContent = '실시간 집계를 불러오지 못했어요. 새로고침 버튼을 다시 눌러주세요.';
+          errEl.style.display = 'block';
+        }
+        gridEl.innerHTML = '';
+      });
+  }
+
+})();
+</script>
+</body>
+</html>
