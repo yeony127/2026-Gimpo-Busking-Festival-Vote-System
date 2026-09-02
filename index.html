@@ -289,6 +289,7 @@
     border-radius:14px;padding:7px 8px;font-size:15px;font-weight:700;
     min-width:0;text-align:center;box-sizing:border-box;
   }
+  .chip-name{font-size:12px;}
   .chip-done{background:var(--yellow);color:#5a3d00;cursor:pointer;}
   .chip-done:active{transform:scale(0.96);}
   .chip-meta{display:block;font-size:11.2px;font-weight:700;opacity:0.75;margin-bottom:1px;}
@@ -356,8 +357,8 @@
   #adminTallyGrid .time-label{font-size:14.25px;}
   #adminTallyGrid .cell{font-size:12.9px;}
   #adminTallyGrid .t{font-size:12.15px;}
-  #adminTallyGrid .n{font-size:13.95px;}
-  #adminTallyGrid .tally-badge{font-size:11.4px;}
+  #adminTallyGrid .n{font-size:12.56px;}
+  #adminTallyGrid .tally-badge{font-size:14.82px;}
 
   footer{text-align:center;font-size:10.5px;color:#8aa08e;margin-top:18px;}
 </style>
@@ -740,7 +741,7 @@
           c.tabIndex = 0;
           c.setAttribute('role','button');
           c.setAttribute('aria-label', p.name+' 응답 수정하기');
-          c.innerHTML = '<span class="chip-meta">'+p.start+'~'+p.end+'</span>'+p.name;
+          c.innerHTML = '<span class="chip-meta">'+p.start+'~'+p.end+'</span><span class="chip-name">'+p.name+'</span>';
           c.addEventListener('click', function(){ openSurvey(id); });
           c.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openSurvey(id);} });
           sub.appendChild(c);
