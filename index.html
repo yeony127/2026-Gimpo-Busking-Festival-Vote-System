@@ -72,7 +72,7 @@
     display:inline-block;
     background:#fff;
     color:#19644f;
-    font-size:14px;
+    font-size:18.2px;
     line-height:1.4;
     padding:10px 18px;
     border-radius:18px;
@@ -198,7 +198,7 @@
     font-size:14.5px; font-weight:700; line-height:1.4; text-align:center;
   }
   .greet b{font-size:1.3em;}
-  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end;font-size:10.5px;color:#5c6a60;margin:2px 0 10px;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end;font-size:13.7px;color:#5c6a60;margin:2px 0 10px;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .legend i{width:12px;height:12px;border-radius:4px;display:inline-block;}
   .legend i.mix{background:conic-gradient(var(--blue-pastel) 0deg 120deg, var(--cream) 120deg 240deg, var(--mint-pastel) 240deg 360deg);}
@@ -215,7 +215,7 @@
   .genre-icon-a{background:#4c9be0;}
   .genre-icon-b{background:#f0ac1e;}
   .genre-icon-c{background:#3fa85f;}
-  .genre-label{font-size:9.3px;font-weight:800;letter-spacing:0.2px;}
+  .genre-label{font-size:12.1px;font-weight:800;letter-spacing:0.2px;}
   .genre-A{color:#4c9be0;}
   .genre-B{color:#e0a020;}
   .genre-C{color:#3fa85f;}
@@ -228,10 +228,10 @@
   .stage-head{
     background:#eef3ee;border-radius:8px;
     text-align:center;padding:6px 2px;
-    font-size:10px; font-weight:700; color:var(--green-dark);
+    font-size:13px; font-weight:700; color:var(--green-dark);
     line-height:1.3;
   }
-  .stage-head small{display:block;font-weight:500;color:#7c8a80;font-size:8.3px;}
+  .stage-head small{display:block;font-weight:500;color:#7c8a80;font-size:10.8px;}
 
   .grid{
     display:grid;
@@ -243,14 +243,14 @@
   .time-label{
     background:#f1f4f1;border-radius:8px;
     display:flex;align-items:center;justify-content:center;
-    font-size:9.5px;font-weight:700;color:#4a564d;
+    font-size:12.4px;font-weight:700;color:#4a564d;
     text-align:center;line-height:1.35;padding:2px;
     writing-mode:horizontal-tb;
   }
   .cell{
     border-radius:7px;
     padding:3px 3px;
-    font-size:8.6px;
+    font-size:11.2px;
     line-height:1.28;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;
@@ -258,8 +258,9 @@
     font-family:'Noto Sans KR',sans-serif;
     overflow:hidden;
   }
-  .cell .t{font-weight:700;font-size:8.1px;opacity:0.75;}
-  .cell .n{font-weight:700;font-size:9.3px;margin-top:1px;}
+  .cell .t{font-weight:700;font-size:10.5px;opacity:0.75;}
+  .cell .n{font-weight:700;font-size:12.1px;margin-top:1px;}
+  .cell .n.n-tight{letter-spacing:-1.5px;word-spacing:-8px;white-space:nowrap;}
   .cell-vote{cursor:pointer;}
   .cell-vote:active{transform:scale(0.96);}
   .c0{background:var(--blue-pastel);}
@@ -267,7 +268,7 @@
   .c2{background:var(--mint-pastel);}
   .cell-prep{background:#e4e6e8;color:#8a8f98;}
   .cell-prep.cell-tiny{padding:1px;}
-  .cell-prep.cell-tiny .n{font-size:7.6px;white-space:nowrap;}
+  .cell-prep.cell-tiny .n{font-size:9.9px;white-space:nowrap;}
   .cell-special{background:var(--pink-light);color:#a1436a;}
   .cell-done{
     background:var(--gray-voted)!important;
@@ -278,26 +279,26 @@
 
   /* ---------- progress ---------- */
   .progress-card{}
-  .progress-title{font-size:13.5px;font-weight:700;color:var(--green-dark);margin-bottom:2px;}
-  .progress-sub{font-size:10.5px;color:#7c8a80;margin-bottom:10px;}
-  .chip-group{margin-bottom:10px;}
-  .chip-group-label{font-size:10.8px;font-weight:800;color:var(--green-dark);margin-bottom:6px;}
-  .progress-groups{display:flex;flex-direction:column;}
-  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .progress-title{font-size:17.6px;font-weight:700;color:var(--green-dark);margin-bottom:2px;}
+  .progress-sub{font-size:13.7px;color:#7c8a80;margin-bottom:10px;}
+  .chip-group{margin-bottom:0;}
+  .chip-group-label{font-size:14px;font-weight:800;color:var(--green-dark);margin-bottom:6px;text-align:center;}
+  .progress-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:start;}
+  .chip-row{display:flex;flex-direction:column;gap:8px;}
   .chip{
-    border-radius:14px;padding:7px 12px;font-size:11.5px;font-weight:700;
-    min-width:64px;text-align:center;
+    border-radius:14px;padding:7px 8px;font-size:15px;font-weight:700;
+    min-width:0;text-align:center;box-sizing:border-box;
   }
   .chip-done{background:var(--yellow);color:#5a3d00;cursor:pointer;}
   .chip-done:active{transform:scale(0.96);}
-  .chip-meta{display:block;font-size:8.6px;font-weight:700;opacity:0.75;margin-bottom:1px;}
+  .chip-meta{display:block;font-size:11.2px;font-weight:700;opacity:0.75;margin-bottom:1px;}
   .chip-empty{
     background:rgba(255,255,255,0.5);
     border:1.5px dashed #c3cbc4;
     color:#9aa39c;
   }
   .gift-note{
-    text-align:center;font-size:12.5px;font-weight:700;color:var(--green-dark);
+    text-align:center;font-size:16.3px;font-weight:700;color:var(--green-dark);
     background:var(--green-light);border-radius:10px;padding:9px;
   }
   .gift-note.done{background:#fff3d6;color:#8a5a00;}
@@ -339,10 +340,23 @@
 
   /* admin modal */
   #adminBody .card{margin-bottom:10px;}
-  .admin-stat{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dashed #e5e9e5;}
-  .admin-warn{font-size:10.8px;color:#9a7300;background:#fff8e6;border-radius:8px;padding:8px;margin-top:8px;line-height:1.5;}
+  .admin-stat{display:flex;justify-content:space-between;font-size:16.9px;padding:6px 0;border-bottom:1px dashed #e5e9e5;}
+  .admin-warn{font-size:14px;color:#9a7300;background:#fff8e6;border-radius:8px;padding:8px;margin-top:8px;line-height:1.5;}
   .tally-badge{margin-top:1px;font-size:7.6px;font-weight:800;color:#c81e3a;background:rgba(255,255,255,0.85);border-radius:5px;padding:0.5px 4px;display:inline-block;}
-  .tally-loading{grid-column:1/5;text-align:center;padding:22px 0;color:#7c8a80;font-size:12px;}
+  .tally-loading{grid-column:1/5;text-align:center;padding:22px 0;color:#7c8a80;font-size:15.6px;}
+
+  /* 관리자 모드 전체 텍스트 +30% */
+  #adminBody .sheet-title{font-size:19.5px;}
+  #adminBody label{font-size:16.25px;}
+  #adminBody input[type=text]{font-size:18.85px;}
+  #adminBody .err{font-size:14.95px;}
+  #adminBody .btn{font-size:20.15px;}
+  /* 관리자 실시간 득표현황 표 안 아이콘·텍스트는 +50% */
+  #adminTallyGrid .time-label{font-size:14.25px;}
+  #adminTallyGrid .cell{font-size:12.9px;}
+  #adminTallyGrid .t{font-size:12.15px;}
+  #adminTallyGrid .n{font-size:13.95px;}
+  #adminTallyGrid .tally-badge{font-size:11.4px;}
 
   footer{text-align:center;font-size:10.5px;color:#8aa08e;margin-top:18px;}
 </style>
@@ -402,7 +416,7 @@
 
       <div class="err" id="regErr">이름, 연락처를 입력하고 개인정보 수집에 동의해주세요.</div>
       <div style="margin-top:16px;">
-        <button class="btn btn-green" id="btnRegister">시민투표 참여하기 ☑️</button>
+        <button class="btn btn-green" id="btnRegister">시민투표 참여하기 ✅</button>
       </div>
     </div>
   </div>
@@ -448,10 +462,10 @@
         <div class="genre-item">
           <span class="genre-icon genre-icon-c">
             <svg viewBox="0 0 24 24" width="18" height="18">
-              <path d="M7 5 9.6 12 7 19 17 19 14.4 12 17 5 Z" fill="#fff"/>
-              <ellipse cx="12" cy="5" rx="5.4" ry="1.9" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
-              <ellipse cx="12" cy="19" rx="5.4" ry="1.9" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
-              <path d="M8 8.6 16 15.4M16 8.6 8 15.4" stroke="#1f5c3d" stroke-width="1.1" stroke-linecap="round"/>
+              <path d="M5 7 12 9.6 19 7 19 17 12 14.4 5 17 Z" fill="#fff"/>
+              <ellipse cx="5" cy="12" rx="1.9" ry="5.4" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
+              <ellipse cx="19" cy="12" rx="1.9" ry="5.4" fill="#fff" stroke="#1f5c3d" stroke-width="0.6"/>
+              <path d="M8.6 8 15.4 16M15.4 8 8.6 16" stroke="#1f5c3d" stroke-width="1.1" stroke-linecap="round"/>
             </svg>
           </span>
           <span class="genre-label genre-C">국악</span>
@@ -492,7 +506,7 @@
       <div class="opt" data-v="보통이다" tabindex="0" role="radio" aria-checked="false"><span class="emoji">😐</span>보통이다</div>
       <div class="opt" data-v="매우 아니다" tabindex="0" role="radio" aria-checked="false"><span class="emoji">😞</span>매우 아니다</div>
     </div>
-    <button class="btn btn-green" id="btnCompleteVote" disabled>투표완료 ☑️</button>
+    <button class="btn btn-green" id="btnCompleteVote" disabled>투표완료 ✅</button>
     <button class="btn btn-cancel" id="btnCancelVote" style="display:none;">투표취소 ❌</button>
   </div>
 </div>
@@ -557,6 +571,7 @@
     {stage:'C',start:'15:00',end:'15:30',label:'무대정비',type:'prep'}
   ];
   var GIFT_THRESHOLD = 5;
+  var TIGHT_NAMES = ['더 탭댄스 퍼포먼스 컴퍼니']; // 표에서 이름이 길어서 자간을 좁혀 한 줄로 넣어야 하는 버스커
   var ADMIN_PW = '1207';
   var STORE_KEY = 'gbf_vote_state_v1';
   // ---------------- 구글시트 연동 (Apps Script 웹앱, 행사 당일 여러 기기 데이터 취합용) ----------------
@@ -670,7 +685,8 @@
       var voter = getCurrentVoter();
       var voted = voter && voter.votes && voter.votes[item.id];
       el.className='cell cell-vote '+(voted?'cell-done':item.color);
-      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">'+item.name+'</div>';
+      var nCls = 'n'+(TIGHT_NAMES.indexOf(item.name)>-1?' n-tight':'');
+      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="'+nCls+'">'+item.name+'</div>';
       el.setAttribute('tabindex','0');
       el.setAttribute('role','button');
       el.setAttribute('aria-label', item.name+' '+item.start+'~'+item.end+(voted?' (투표 완료, 다시 투표하려면 선택)':' 투표하기'));
@@ -688,7 +704,8 @@
     buildGridInto(grid, function(el, item){
       el.className='cell '+item.color;
       var c = counts[item.name] || 0;
-      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="n">'+item.name+'</div><div class="tally-badge">😍 '+c+'</div>';
+      var nCls = 'n'+(TIGHT_NAMES.indexOf(item.name)>-1?' n-tight':'');
+      el.innerHTML = '<div class="t">'+item.start+'-'+item.end+'</div><div class="'+nCls+'">'+item.name+'</div><div class="tally-badge">😍 '+c+'</div>';
     });
   }
 
@@ -708,42 +725,36 @@
 
     ['A','B','C'].forEach(function(stage){
       var ids = byStage[stage];
-      if(!ids.length) return;
       ids.sort(function(a,b){ return toMin(byId[a].start)-toMin(byId[b].start); });
       var group = document.createElement('div');
       group.className='chip-group';
       group.innerHTML = '<div class="chip-group-label">스테이지 '+stage+'</div>';
       var sub = document.createElement('div');
       sub.className='chip-row';
-      ids.forEach(function(id){
-        var p = byId[id];
-        var c = document.createElement('div');
-        c.className='chip chip-done';
-        c.tabIndex = 0;
-        c.setAttribute('role','button');
-        c.setAttribute('aria-label', p.name+' 응답 수정하기');
-        c.innerHTML = '<span class="chip-meta">'+p.start+'~'+p.end+'</span>'+p.name;
-        c.addEventListener('click', function(){ openSurvey(id); });
-        c.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openSurvey(id);} });
-        sub.appendChild(c);
-      });
+      if(ids.length){
+        ids.forEach(function(id){
+          var p = byId[id];
+          var c = document.createElement('div');
+          c.className='chip chip-done';
+          c.tabIndex = 0;
+          c.setAttribute('role','button');
+          c.setAttribute('aria-label', p.name+' 응답 수정하기');
+          c.innerHTML = '<span class="chip-meta">'+p.start+'~'+p.end+'</span>'+p.name;
+          c.addEventListener('click', function(){ openSurvey(id); });
+          c.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openSurvey(id);} });
+          sub.appendChild(c);
+        });
+      } else {
+        var c2 = document.createElement('div');
+        c2.className='chip chip-empty';
+        c2.textContent='투표 전';
+        sub.appendChild(c2);
+      }
       group.appendChild(sub);
       row.appendChild(group);
     });
 
     var emptySlots = Math.max(0, GIFT_THRESHOLD - count);
-    if(emptySlots > 0){
-      var erow = document.createElement('div');
-      erow.className='chip-row';
-      for(var i=0;i<emptySlots;i++){
-        var c2 = document.createElement('div');
-        c2.className='chip chip-empty';
-        c2.textContent='투표 전';
-        erow.appendChild(c2);
-      }
-      row.appendChild(erow);
-    }
-
     var note = document.getElementById('giftNote');
     if(count >= GIFT_THRESHOLD){
       note.className='gift-note done';
@@ -861,8 +872,11 @@
     document.getElementById('btnCompleteVote').disabled = !existing;
     document.getElementById('btnCancelVote').style.display = existing ? 'block' : 'none';
     document.getElementById('surveyOverlay').classList.add('show');
+    pushModalHistory();
   }
-  function closeSurvey(){ document.getElementById('surveyOverlay').classList.remove('show'); }
+  function closeSurvey(){
+    if(document.getElementById('surveyOverlay').classList.contains('show')) history.back();
+  }
   document.getElementById('closeSurvey').addEventListener('click', closeSurvey);
 
   function selectOpt(o){
@@ -902,15 +916,25 @@
     renderAll();
   });
 
+  // ---------------- 뒤로가기 버튼으로 모달 닫기 ----------------
+  function pushModalHistory(){
+    try{ history.pushState({gbfModal:true}, ''); }catch(e){}
+  }
+  window.addEventListener('popstate', function(){
+    document.getElementById('surveyOverlay').classList.remove('show');
+    document.getElementById('adminOverlay').classList.remove('show');
+  });
+
   // ---------------- 관리자 모달 ----------------
   document.getElementById('btnAdmin').addEventListener('click', function(){
     document.getElementById('inPw').value='';
     document.getElementById('pwErr').style.display='none';
     resetAdminBody();
     document.getElementById('adminOverlay').classList.add('show');
+    pushModalHistory();
   });
   document.getElementById('closeAdmin').addEventListener('click', function(){
-    document.getElementById('adminOverlay').classList.remove('show');
+    if(document.getElementById('adminOverlay').classList.contains('show')) history.back();
   });
 
   function resetAdminBody(){
