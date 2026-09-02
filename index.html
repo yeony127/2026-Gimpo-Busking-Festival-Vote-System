@@ -343,7 +343,6 @@
   /* 기프티콘 응모 완료 팝업 */
   .gift-popup-title{font-size:19px;font-weight:800;color:var(--green-dark);text-align:center;line-height:1.5;margin:8px 0 16px;}
   .gift-popup-warn{font-size:12.5px;color:#c81e3a;line-height:1.65;background:#fff3f3;border-radius:10px;padding:12px;margin-bottom:16px;}
-  .gift-extra{display:block;color:#8bc34a;font-size:11.78px;font-weight:700;margin-top:8px;}
 
   /* admin modal */
   #adminBody .card{margin-bottom:10px;}
@@ -776,8 +775,7 @@
     var note = document.getElementById('giftNote');
     if(count >= GIFT_THRESHOLD){
       note.className='gift-note done';
-      var extraMsg = count > GIFT_THRESHOLD ? '<span class="gift-extra">내 취향이 2026-27 시즌 김포버스커 심사에 반영되는 중 …</span>' : '';
-      note.innerHTML = '['+count+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩'+extraMsg;
+      note.innerHTML = '['+count+'팀] 투표 완료!<br>커피 기프티콘 자동 응모 성공☕🤩';
     } else {
       note.className='gift-note';
       note.textContent = '커피 기프티콘 응모까지 ['+emptySlots+'팀] 더 투표 해주세요!☕';
@@ -923,14 +921,16 @@
     var voter = getCurrentVoter();
     if(!voter) return;
     voter.votes = voter.votes || {};
-    var prevCount = Object.keys(voter.votes).length;
-    var alreadyVoted = !!voter.votes[currentPerfId];
     voter.votes[currentPerfId] = {satisfaction:selectedVal, votedAt:new Date().toISOString()};
     var newCount = Object.keys(voter.votes).length;
+    // 팀 수가 임계값을 처음 '넘어서는 순간'만 잡던 이전 로직은, 이미 이전에 5팀 이상 투표한
+    // 이력이 있는(로컬 기기에 남아있는) 참여자에게는 그 순간을 다시 만들 수 없어 팝업이
+    // 영영 뜨지 않는 문제가 있었다. 참여자별 '이미 팝업을 보여줬는지' 플래그로 판단하도록 변경.
+    var justReachedGift = newCount >= GIFT_THRESHOLD && !voter.giftPopupShown;
+    if(justReachedGift){ voter.giftPopupShown = true; }
     saveState();
     submitVoteToSheet(voter, currentPerfId, selectedVal, 'vote');
     renderAll();
-    var justReachedGift = !alreadyVoted && prevCount < GIFT_THRESHOLD && newCount >= GIFT_THRESHOLD;
     if(justReachedGift){
       // 만족도 조사 모달은 바로 닫고(히스토리는 그대로 유지), 그 자리에 기프티콘 응모 완료 팝업을 띄운다.
       // 뒤로가기를 누르면 이 팝업도 기존 모달과 똑같은 방식으로 닫히게 된다.
